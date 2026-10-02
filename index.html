@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Personal Reddit Learning Assistant — Mock Demo</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f5f8;color:#182433;font:16px/1.6 system-ui,sans-serif}main{max-width:1050px;margin:48px auto;padding:0 24px}h1{font-size:32px;line-height:1.2}p{color:#536175}.notice{background:#fff4df;border:1px solid #efd09a;padding:16px;border-radius:12px}.panel{background:white;border:1px solid #dee4ed;border-radius:14px;padding:24px;margin-top:20px}.controls{display:flex;gap:12px;flex-wrap:wrap}input,select,button{font:inherit;padding:12px;border-radius:8px;border:1px solid #b9c4d2}input{flex:1;min-width:180px}button{background:#2459c4;color:white;cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #e4a126;outline-offset:3px}.card{border-top:1px solid #e3e8ef;padding:20px 0}.tag{color:#2459c4;font-size:14px}h2{font-size:22px}h3{margin:6px 0}.comment{background:#f4f6f9;padding:12px;border-radius:8px;margin:10px 0}summary{cursor:pointer;color:#2459c4}footer{font-size:14px;margin:24px 0;color:#536175}a{color:#2459c4}
+</style>
+<main>
+<div class="tag">PERSONAL • READ-ONLY • PLANNING PROTOTYPE</div>
+<h1>Reddit Learning Assistant</h1>
+<p>Explore machining and CNC discussions, then read the selected comments.</p>
+<div class="notice"><strong>Mock-data demo only.</strong> All posts and comments below are invented examples. This app does not connect to Reddit or OpenAI, and no API access has been approved or verified.</div>
+<section class="panel" aria-labelledby="search-title">
+<h2 id="search-title">Search example discussions</h2>
+<form id="search" class="controls">
+<input id="query" type="search" aria-label="Search mock posts and comments" placeholder="Try: chatter, aluminum, workholding">
+<select id="community" aria-label="Community"><option value="all">Both communities</option><option>Machinists</option><option>CNC</option></select>
+<button type="submit">Search examples</button>
+</form>
+<p id="status" role="status" aria-live="polite"></p>
+<div id="results"></div>
+</section>
+<section class="panel"><h2>Scope and data handling</h2>
+<ul><li>Current demo: local mock data only. No network requests, analytics, cookies, or persistent storage.</li><li>Planned scope: personal learning in r/Machinists and r/CNC, with user-initiated, read-only retrieval.</li><li>No posting, commenting, voting, private messages, private communities, or user profiling.</li><li>Future Reddit text processing in OpenAI Codex would require disclosure and compliance with Reddit approval and applicable requirements. AI processing is not implemented.</li><li>OAuth, approved access limits, retention and deletion controls must be implemented before any live API use.</li></ul>
+</section>
+<footer>Documentation prototype for an API access request. Community links identify the planned scope, not the source of these examples: <a href="https://www.reddit.com/r/Machinists/">r/Machinists</a> · <a href="https://www.reddit.com/r/CNC/">r/CNC</a>.</footer>
+</main>
+<script>
+const posts=[
+{community:'Machinists',title:'Mock example: diagnosing chatter during milling',body:'A learner asks which setup checks to consider when a milling operation produces chatter.',comments:['Example reply: check workholding rigidity and tool overhang before changing several settings at once.','Example reply: record the tool, material, and cutting conditions so the discussion has enough context.']},
+{community:'CNC',title:'Mock example: learning to machine aluminum',body:'A beginner asks how to organize a learning checklist for aluminum machining on a CNC mill.',comments:['Example reply: start with the machine and tool manufacturer documentation and verify the material grade.','Example reply: keep notes about chip evacuation and surface finish; use a safe supervised setup.']},
+{community:'Machinists',title:'Mock example: workholding for a small part',body:'A learner compares possible workholding approaches for a small part and asks what information to include.',comments:['Example reply: share a drawing, stock dimensions, and which faces need machining.','Example reply: consider access for the tool and how the part will be supported throughout the operation.']},
+{community:'CNC',title:'Mock example: preparing to review a toolpath',body:'A student wants a checklist for reviewing a CAM toolpath before a supervised machining session.',comments:['Example reply: verify the stock, work coordinate system, tool definitions, and clearance moves.','Example reply: simulation is useful, but the setup still needs an independent check.']}
+];
+function node(tag,text,cls){const el=document.createElement(tag);el.textContent=text;if(cls)el.className=cls;return el}
+function render(){const q=document.querySelector('#query').value.trim().toLowerCase();const community=document.querySelector('#community').value;const found=posts.filter(p=>(community==='all'||p.community===community)&&[p.title,p.body,...p.comments].join(' ').toLowerCase().includes(q));const root=document.querySelector('#results');root.replaceChildren();document.querySelector('#status').textContent=found.length+' mock discussion'+(found.length===1?'':'s')+' found. No live search was performed.';for(const p of found){const card=node('article','','card');card.append(node('div','r/'+p.community+' · Invented example','tag'),node('h3',p.title),node('p',p.body));const details=node('details','');details.append(node('summary','Read '+p.comments.length+' mock comments'));p.comments.forEach(c=>details.append(node('div',c,'comment')));card.append(details);root.append(card)}if(!found.length)root.append(node('p','No matching examples. Try “chatter”, “aluminum”, “workholding”, or clear the search.'))}
+document.querySelector('#search').addEventListener('submit',e=>{e.preventDefault();render()});document.querySelector('#community').addEventListener('change',render);render();
+</script>
+</html>

@@ -1,23 +1,40 @@
 # Personal Reddit Learning Assistant
 
-## Project status
-Planning stage. Reddit API access is being requested. No Reddit API integration has been implemented, and this repository currently contains documentation only.
+A minimal, read-only UI prototype for a personal Reddit learning tool.
 
-## Purpose
-A personal, non-commercial, read-only tool to help me learn about machining and CNC by finding and reading public discussions in r/Machinists and r/CNC.
+## Status
 
-## Planned functionality
-- Search public posts in the approved communities when I explicitly request it.
-- Retrieve selected posts and comments.
-- Provide selected text to OpenAI Codex for reading assistance and summarization.
-- Include original Reddit links so I can check the source discussions.
+**Mock-data prototype only.** Reddit API access is being requested. No live Reddit or OpenAI integration is implemented. All example posts and comments are invented and are not copied from Reddit. This repository does not prove API approval or an authenticated connection.
 
-## Intended architecture
-OpenAI Codex would use a locally operated connector, potentially an MCP server, to call the Reddit Data API using approved OAuth access. The connector has not yet been selected or implemented.
+## Run
 
-## Scope and data handling
-The tool is intended only for my own learning, with occasional, user-initiated requests. It will not post, comment, vote, send messages, access private communities, or build user profiles.
+Download the repository and open `index.html` in a modern browser. No installation, API keys, or build step is required.
 
-It is not intended for bulk collection, commercial use, or model training or fine-tuning. Before implementation, I will review the AI service's data-use settings and ensure that processing, retention, and deletion comply with Reddit's approval and applicable requirements.
+## Implemented
 
-Implementation and API use will proceed only after Reddit grants the required access.
+- Keyword filtering across mock titles, bodies, and comments.
+- Filtering for the planned communities: r/Machinists and r/CNC.
+- Expandable example comments and a no-results state.
+- Visible disclosure of prototype status, intended access scope, and data handling.
+
+## Intended use
+
+Occasional, user-initiated personal learning about machining and CNC. No commercial service, automated posting, commenting, voting, messaging, private content access, or user profiling is planned.
+
+## Future architecture — not implemented
+
+OpenAI Codex → local read-only connector (potentially MCP) → approved Reddit Data API OAuth access.
+
+Selected public text would be supplied to OpenAI Codex for reading assistance and summarization, with original post links. Reddit must approve the proposed use and any applicable AI processing before live access. The connector would need to implement approved scopes, rate limits, secure credential storage, and applicable retention/deletion requirements. AI service data-use settings must also be reviewed.
+
+## Current privacy behavior
+
+The demo makes no network requests and uses no analytics, cookies, local storage, or server. Searches are processed locally in memory. Clicking the explicitly labeled community links navigates to Reddit normally.
+
+## Manual verification
+
+Open the demo; search `chatter` (one result), choose CNC (no matching result), clear the query (two CNC results), and expand comments. Search HTML-like text to confirm it displays only as input and is not interpreted as markup.
+
+## API application
+
+This repository documents the proposal and demonstrates the local UI. It contains no live API implementation. Approval is not guaranteed. Only access Reddit data after the required explicit approval.
